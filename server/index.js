@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 import postRoutes from './routes/postRoutes.js';
+import userRoutes from './routes/postRoutes.js';
 
 const app = express();
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(cors());
 // Reachable on `localhost:5000/posts`
 // Use express middleware to bring in our routes route using 'posts' prefix
 app.use('/posts', postRoutes);
+app.use('/user', userRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello from klh-memories API');
