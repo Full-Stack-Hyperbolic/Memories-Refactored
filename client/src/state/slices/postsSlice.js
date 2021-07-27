@@ -51,21 +51,17 @@ export const postsSlice = createSlice({
   // the action.payload is coming from the (res)ponse from the back-end
   extraReducers: builder => {
     builder.addCase(getAllPosts.fulfilled, (state, action) => {
-      console.log('GetAllPosts Builder');
       state.posts = action.payload;
     });
     builder.addCase(createPost.fulfilled, (state, action) => {
-      console.log('CreatePost Builder');
       state.posts = [...state.posts, action.payload];
     });
     builder.addCase(updatePost.fulfilled, (state, action) => {
-      console.log('UpdatePost Builder');
       state.posts = state.posts.map(post =>
         post._id === action.payload._id ? action.payload : post
       );
     });
     builder.addCase(deletePost.fulfilled, (state, action) => {
-      console.log('DeletePost Builder', action.payload);
       state.posts = state.posts.filter(post => post._id !== action.payload);
       state.isLoading = false;
     });

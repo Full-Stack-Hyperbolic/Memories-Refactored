@@ -4,8 +4,7 @@ import * as api from '../../api';
 const userSlice = createSlice({
   name: 'User',
   initialState: {
-    googleProfile: null,
-    googleTokenId: null,
+    authData: null,
     isSignUp: true,
     isLoading: false,
   },
@@ -14,12 +13,12 @@ const userSlice = createSlice({
       state.isSignUp = !state.isSignUp;
     },
     authUser: (state, action) => {
-      const { result, token } = action?.payload;
-      state.googleProfile = result;
-      state.googleTokenId = token;
-      console.log('Google profile = ', state.googleProfile);
-      console.log('Google token = ', state.googleTokenId);
+      state.authData = action?.payload;
       localStorage.setItem('profile', JSON.stringify({ ...action?.payload }));
+    },
+    deAuth: state => {
+      localStorage.clear();
+      state.authData = null;
     },
   },
   //   extraReducers: builder => {
@@ -27,5 +26,5 @@ const userSlice = createSlice({
   //   }
 });
 
-export const { toggleIsSignUp, authUser } = userSlice.actions;
+export const { toggleIsSignUp, authUser, deAuth } = userSlice.actions;
 export default userSlice.reducer;
