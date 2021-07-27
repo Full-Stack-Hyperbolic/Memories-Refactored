@@ -7,7 +7,6 @@ import {
   setSelectedPost,
   updatePost,
   createPost,
-  getAllPosts,
 } from '../../state/slices/postsSlice';
 
 const Form = () => {
@@ -27,7 +26,7 @@ const Form = () => {
   useEffect(() => {
     console.log('Re-rendering Form.js');
     if (selectedPost) setPostData(selectedPost);
-  }, [posts]);
+  }, [posts, selectedPost]);
 
   const handleSubmit = e => {
     e.preventDefault();

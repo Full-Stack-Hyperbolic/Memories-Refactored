@@ -9,7 +9,6 @@ export const getAllPosts = createAsyncThunk('posts/allPosts', async () => {
 
 export const createPost = createAsyncThunk('posts/create', async newPost => {
   const response = await api.createPost(newPost);
-  console.log('FIRING CREATE');
   return response.data;
 });
 
@@ -23,7 +22,6 @@ export const updatePost = createAsyncThunk(
 
 export const deletePost = createAsyncThunk('posts/id/delete', async postId => {
   const response = await api.deletePost(postId);
-  console.log('DeletePost Action fired for post id: ', postId);
   return response.data;
 });
 

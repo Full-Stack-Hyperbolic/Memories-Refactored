@@ -12,10 +12,23 @@ import {
   TextField,
 } from '@material-ui/core';
 import LockOutlineIcon from '@material-ui/icons/LockOutlined';
-import { toggleIsSignUp, authUser } from '../../state/slices/userSlice';
+import {
+  toggleIsSignUp,
+  authUser,
+  signIn,
+  signUp,
+} from '../../state/slices/userSlice';
 import { GoogleLogin } from 'react-google-login';
 import Icon from './icon';
 import Input from './Input';
+
+const initialFormState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+};
 
 const Auth = () => {
   const classes = useStyles();
@@ -23,11 +36,29 @@ const Auth = () => {
   const isSignUp = useSelector(state => state.user.isSignUp);
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState(initialFormState);
 
   const handleShowPassword = () => setShowPassword(prevState => !prevState);
 
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const data = {
+      formData,
+      history,
+    };
+
+    if (isSignUp) {
+      dispatch(signUp(data));
+    } else {
+      dispatch(signIn(data));
+    }
+  };
+
+  const handleChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const switchMode = () => {
     dispatch(toggleIsSignUp());
     handleShowPassword(false);

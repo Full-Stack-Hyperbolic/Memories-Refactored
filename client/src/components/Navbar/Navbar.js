@@ -4,8 +4,8 @@ import { AppBar, Typography, Toolbar, Button, Avatar } from '@material-ui/core';
 import useStyles from '../../styles/Navbar.Styles';
 import memories from '../../images/memories.png';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { deAuth } from '../../state/slices/userSlice';
+import { useDispatch } from 'react-redux';
+import { deAuth, toggleIsSignUp } from '../../state/slices/userSlice';
 
 const Navbar = () => {
   const classes = useStyles();
@@ -30,7 +30,7 @@ const Navbar = () => {
     // check for JWT for manual sign-up
 
     setUser(JSON.parse(localStorage.getItem('profile')));
-  }, [location]);
+  }, [location, user?.token]);
 
   return (
     <AppBar className={classes.appBar} position='static' color='inherit'>
@@ -83,6 +83,9 @@ const Navbar = () => {
             to='/auth'
             variant='contained'
             color='primary'
+            onClick={() => {
+              dispatch(toggleIsSignUp(false));
+            }}
           >
             Sign In
           </Button>

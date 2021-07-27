@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import useStyles from '../../../styles/Post.Styles';
 import {
   Card,
@@ -13,13 +13,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { CardActionArea } from '@material-ui/core';
 import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setSelectedPost, deletePost } from '../../../state/slices/postsSlice';
 
 const Post = ({ post }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const posts = useSelector(state => state.memoryPosts.posts);
 
   return (
     <Card className={classes.card}>

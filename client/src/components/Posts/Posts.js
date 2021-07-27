@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 // Fetch the data from the global redux store with Redux 'Selectors'
 import useStyles from '../../styles/Posts.Styles';
-import { Grid, CircularProgress, Typography } from '@material-ui/core';
-import { useSelector, useDispatch } from 'react-redux';
+import { Grid, CircularProgress } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import Post from './Post/Post';
-import { getAllPosts } from '../../state/slices/postsSlice';
 
 const Posts = () => {
   const classes = useStyles();
