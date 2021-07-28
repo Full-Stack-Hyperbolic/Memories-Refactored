@@ -25,6 +25,14 @@ export const deletePost = createAsyncThunk('posts/id/delete', async postId => {
   return response.data;
 });
 
+export const likePost = createAsyncThunk(
+  'posts/:id/likePosts',
+  async postId => {
+    const response = await api.likePost(postId);
+    return response.data;
+  }
+);
+
 export const postsSlice = createSlice({
   name: 'MemoryPosts',
   initialState: {
@@ -62,6 +70,12 @@ export const postsSlice = createSlice({
     builder.addCase(deletePost.fulfilled, (state, action) => {
       state.posts = state.posts.filter(post => post._id !== action.payload);
       state.isLoading = false;
+    });
+    builder.addCase(likePost.fulfilled, (state, action) => {
+      console.log('likePost Builder fired - action.payload = ', action.payload);
+      state.posts = state.posts.map(post =>
+        post._id === action.payload._id ? action.payload : post
+      );
     });
   },
 });

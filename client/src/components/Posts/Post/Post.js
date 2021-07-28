@@ -15,6 +15,7 @@ import { CardActionArea } from '@material-ui/core';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { setSelectedPost, deletePost } from '../../../state/slices/postsSlice';
+import { likePost } from '../../../state/slices/postsSlice';
 
 const Post = ({ post }) => {
   const classes = useStyles();
@@ -57,7 +58,7 @@ const Post = ({ post }) => {
         <Button
           size='small'
           color='primary'
-          onClick={() => console.log('Liked!')}
+          onClick={() => dispatch(likePost(post._id))}
         >
           <ThumbUpAltIcon fontSize='small' />
           &nbsp; Like &nbsp; {post.likeCount}

@@ -49,6 +49,7 @@ const Auth = () => {
     };
 
     if (isSignUp) {
+      console.log('we are at the beginning of it all');
       dispatch(signUp(data));
     } else {
       dispatch(signIn(data));

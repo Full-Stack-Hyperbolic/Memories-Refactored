@@ -4,8 +4,9 @@ import { AppBar, Typography, Toolbar, Button, Avatar } from '@material-ui/core';
 import useStyles from '../../styles/Navbar.Styles';
 import memories from '../../images/memories.png';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deAuth, toggleIsSignUp } from '../../state/slices/userSlice';
+import decode from 'jwt-decode';
 
 const Navbar = () => {
   const classes = useStyles();
@@ -14,6 +15,7 @@ const Navbar = () => {
   const location = useLocation();
   // Set the local state from localStorage to get avatar and username
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+  const authData = useSelector(state => state.user.authData);
 
   console.log('rerender NavBar');
 
@@ -29,8 +31,14 @@ const Navbar = () => {
 
     // check for JWT for manual sign-up
 
+    if (token) {
+      const decodedToken = decode(token);
+
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
+
     setUser(JSON.parse(localStorage.getItem('profile')));
-  }, [location, user?.token]);
+  }, [location, localStorage.getItem('profile')]);
 
   return (
     <AppBar className={classes.appBar} position='static' color='inherit'>

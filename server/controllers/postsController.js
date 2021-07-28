@@ -53,3 +53,36 @@ export const deletePost = async (req, res) => {
 
   res.json(id);
 };
+
+export const likePost = async (req, res) => {
+  const { id } = req.params;
+
+  req.userId;
+
+  // check if the ID passed in is a valid mongodb _id
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send('No post with that ID found');
+  }
+
+  // Get the original post state
+  const post = await MemoryPost.findById(id);
+
+  // check if this person liked the post already
+  const index = post.likes.findIndex(id => id === String(req.userId));
+
+  // only if their id is not in the above line
+  if (index === -1) {
+    // like the post - by pushinig id
+    post.likes.push(req.userId);
+  } else {
+    // dislike a post - by removing id (returninig all but the one that equals passed in id)
+    post.likes = post.likes.filter(id => id !== String(req.userId));
+  }
+
+  // Update it and return
+  const updatedPost = await MemoryPost.findByIdAndUpdate(id, post, {
+    new: true,
+  });
+
+  res.json(updatedPost);
+};

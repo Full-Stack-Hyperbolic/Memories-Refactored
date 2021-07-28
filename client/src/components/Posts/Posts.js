@@ -11,6 +11,7 @@ const Posts = () => {
 
   useEffect(() => {
     console.log('Re-rendering Posts.js');
+    console.log(posts);
   }, [posts]);
 
   return !posts.length ? (

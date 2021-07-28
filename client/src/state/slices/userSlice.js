@@ -2,32 +2,38 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as api from '../../api';
 
 export const signIn = createAsyncThunk(
-  'auth/signIn',
+  'user/signin',
   async ({ formData, history }) => {
     try {
       // log in the user
+      console.log('FORM DATA = ', formData);
+      const { data } = await api.signIn(formData);
 
       // redirect to the home page
       history.push('/');
+      return data;
     } catch (error) {
       console.log(error);
+      return;
     }
-    return;
   }
 );
 
 export const signUp = createAsyncThunk(
-  'auth/signIn',
+  'user/signup',
   async ({ formData, history }) => {
     try {
       // register the user
+      console.log('are we here tho');
+      const { data } = await api.signUp(formData);
 
       // redirect user to the home page
       history.push('/');
+      return data;
     } catch (error) {
       console.log(error);
+      return;
     }
-    return;
   }
 );
 
@@ -53,9 +59,18 @@ const userSlice = createSlice({
       state.authData = null;
     },
   },
-  //   extraReducers: builder => {
-
-  //   }
+  extraReducers: builder => {
+    builder.addCase(signUp.fulfilled, (state, action) => {
+      state.authData = action?.payload;
+      console.log('Setting localStorage with ', action.payload);
+      localStorage.setItem('profile', JSON.stringify({ ...action?.payload }));
+    });
+    builder.addCase(signIn.fulfilled, (state, action) => {
+      state.authData = action?.payload;
+      console.log('Setting localStorage with ', action.payload);
+      localStorage.setItem('profile', JSON.stringify({ ...action?.payload }));
+    });
+  },
 });
 
 export const { toggleIsSignUp, authUser, deAuth } = userSlice.actions;
